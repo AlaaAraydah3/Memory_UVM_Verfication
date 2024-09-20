@@ -1,3 +1,4 @@
+
 class my_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(my_scoreboard)
    my_sequence_item seq_item ;
@@ -29,22 +30,23 @@ class my_scoreboard extends uvm_scoreboard;
     
     if (seq_item.rst)begin 
       total_rst++;
-    
+      $display(" RESET ");
     end else 
     if (seq_item.Rw_en) begin
       total_write++;
       mem_reg[seq_item.Address] = seq_item.Data_in;
       `uvm_info(get_type_name(), $sformatf("[write]: Address=%0d, Data_in=%0h", seq_item.Address, seq_item.Data_in), UVM_LOW)
-       $display  (" ___write____ " );
+      $display  (" WRITE" );
     end else 
     if (seq_item.Rr_en ) begin
         total_read++;
        `uvm_info(get_type_name(), $sformatf("[read]: Address=%0d, Data_out=%0h", seq_item.Address, seq_item.Data_out), UVM_LOW)
-        $display ("_____read_____  ");
+      $display (" READ ");
       
         if (seq_item.Data_out === mem_reg[seq_item.Address]) begin
              correct_read++;
-             $display("[scorebored_PASS]  Address=%0d , \n  Expected Data=%0d, \n Actual Data=%0d", seq_item.Address, mem_reg[seq_item.Address], seq_item.Data_out);
+          $display("[scorebored_PASS] \n Address      = %0d \n Expected Data= %0d \n Actual   Data= %0d"
+                 , seq_item.Address, mem_reg[seq_item.Address], seq_item.Data_out);
         end
    
     end 
@@ -71,6 +73,3 @@ class my_scoreboard extends uvm_scoreboard;
     `uvm_info(get_type_name(), $sformatf("total correct read =  %0d", correct_read), UVM_LOW)
   endfunction
 endclass
-
-
-
