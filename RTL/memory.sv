@@ -1,29 +1,22 @@
-module mem (
-    input logic clk, rst, En,
-    input logic [3:0] Address,
-    input logic [31:0] Data_in,
-    input logic Rw_en,
-    input logic Rr_en,
-    output logic [31:0] Data_out,
-    output logic Valid_out
-    );
-    
-    logic [31:0] memory [15:0];
+module mem (intf in1);         // Passing the interface to the module
 
-  always @( posedge clk  ) begin
-        if (rst) begin
-            Valid_out <= 1'bx ;
-            Data_out  <= 32'bx;
+  logic [31:0] memory [15:0];  // Memory array
+
+  always @(posedge in1.clk ) begin
+        if (in1.rst) begin
 		
-        end else if (En && Rr_en) begin
+            in1.Valid_out <= 1'bx;
+            in1.Data_out  <= 32'bx;
+        
+        end else if (in1.En && in1.Rr_en) begin
             // Read operation
-            Valid_out <= 1'b1;
-            Data_out  <= memory[Address];
-		
-        end else if (En && Rw_en) begin
+            in1.Valid_out <= 1;
+            in1.Data_out  <= memory[in1.Address];
+       
+        end else if (in1.En && in1.Rw_en) begin
             // Write operation
-            memory[Address] <= Data_in;
-            Valid_out       <= 1'b0   ; 
-        end 
+            memory[in1.Address]  <= in1.Data_in;
+            in1.Valid_out        <= 0; 
+        end
     end
 endmodule
