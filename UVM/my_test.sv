@@ -3,6 +3,7 @@ class my_test extends uvm_test;
     my_env          env;
     my_sequence     seq_inst;
     write_read_seq  write_read ;
+    virtual intf my_vif;
   
   function new(string name, uvm_component parent);
     super.new(name, parent);
