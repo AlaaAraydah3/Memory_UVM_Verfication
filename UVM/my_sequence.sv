@@ -23,7 +23,7 @@ class my_sequence extends uvm_sequence;
   endtask
  
   task write ;
-      repeat(100)begin
+    repeat(5000)begin
         start_item(seq_item);
           assert(seq_item.randomize()with {seq_item.rst == 0 ;seq_item.Rw_en == 1 ;seq_item.En ==1 ;})
            else 
@@ -33,7 +33,7 @@ class my_sequence extends uvm_sequence;
   endtask 
   
   task read ;
-    repeat(50)begin
+    repeat(1000)begin
      start_item(seq_item);
        assert(seq_item.randomize()with {seq_item.rst == 0 ;seq_item.Rr_en == 1 ;seq_item.En ==1 ;})
           else 
